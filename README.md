@@ -1,4 +1,4 @@
-# Agent Interaction Lab
+# Agent Interaction Lab 
 
 A production-ready, modern web application demonstrating two AI agent interaction modalities:
 
