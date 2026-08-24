@@ -16,16 +16,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Text too long (max 4096 chars)" }, { status: 400 });
     }
 
-    const provider = getTTSProvider("openai");
+    const providerId = typeof body.provider === "string" ? body.provider : "openrouter";
+    const provider = getTTSProvider(providerId);
     const result = await provider.synthesize(text, {
-      voice: typeof body.voice === "string" ? body.voice : "alloy",
-      model: typeof body.model === "string" ? body.model : undefined,
+      voice: typeof body.voice === "string" ? body.voice : "flux-alexis-en",
+      model: typeof body.model === "string" ? body.model : "deepgram/flux-tts:free",
       language: typeof body.language === "string" ? body.language : undefined,
       speed: typeof body.speed === "number" ? body.speed : 1.0,
     });
 
     const base64 = Buffer.from(await result.audio.arrayBuffer()).toString("base64");
-    const dataUrl = `data:${result.format || "audio/mp3"};base64,${base64}`;
+    const dataUrl = `data:${result.format || "audio/wav"};base64,${base64}`;
 
     return NextResponse.json({ url: dataUrl, format: result.format });
   } catch (err) {

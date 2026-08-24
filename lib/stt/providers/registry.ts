@@ -1,10 +1,12 @@
 import type { STTProvider } from "../index";
 import { OpenAISTTProvider } from "./openai";
+import { OpenRouterSTTProvider } from "./openrouter";
 
 export type STTProviderFactory = () => STTProvider;
 
 const factories: Record<string, STTProviderFactory> = {
   openai: () => new OpenAISTTProvider(),
+  openrouter: () => new OpenRouterSTTProvider(),
 };
 
 export function availableSTTProviders(): string[] {

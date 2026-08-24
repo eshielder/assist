@@ -1,10 +1,12 @@
 import type { TTSProvider } from "../index";
 import { OpenAITTSProvider } from "./openai";
+import { OpenRouterTTSProvider } from "./openrouter";
 
 export type TTSProviderFactory = () => TTSProvider;
 
 const factories: Record<string, TTSProviderFactory> = {
   openai: () => new OpenAITTSProvider(),
+  openrouter: () => new OpenRouterTTSProvider(),
 };
 
 export function availableTTSProviders(): string[] {
@@ -28,6 +30,6 @@ export function registerTTSProvider(id: string, factory: TTSProviderFactory): vo
   factories[id] = factory;
 }
 
-export const DEFAULT_TTS_PROVIDER = "openai";
-export const DEFAULT_TTS_MODEL = "tts-1";
-export const DEFAULT_TTS_VOICE = "alloy";
+export const DEFAULT_TTS_PROVIDER = "openrouter";
+export const DEFAULT_TTS_MODEL = "deepgram/flux-tts:free";
+export const DEFAULT_TTS_VOICE = "flux-alexis-en";
